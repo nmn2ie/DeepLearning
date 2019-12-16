@@ -8,22 +8,21 @@ def torch_manually():
     w2 = torch.randn(h, d_out, device=device)
 
     learning_rate = 1e-10
-    for i in range(500):
+    for i in range(50):
         # forward
         h = x.mm(w1)
         h_r = h.clamp(min=0)
         y_pre = h_r.mm(w2)
         loss = (y-y_pre).pow(2).sum()
         # Backward (gradient)
-        grad_pre = 2.0*(y_pre-y)
+        grad_pre = 1.0*(y_pre-y)
         grad_h_r = grad_pre.mm(w2.t())
         grad_h = grad_h_r.clone()
-        grad_h[h < 0] = 0
+        grad_h[h < 0.01] = 0
         grad_w1 = x.t().mm(grad_h)
         grad_w2 = h_r.t().mm(grad_pre)
         w1 -= grad_w1*learning_rate
         w2 -= grad_w2*learning_rate
-        print(loss)
 
 
 ######################################################################################################################

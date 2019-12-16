@@ -36,7 +36,7 @@ def autograd_torch():
     w1 = torch.randn(d_in, h, device=device, requires_grad=True)
     w2 = torch.randn(h, d_out, device=device, requires_grad=True)
 
-    learning_rate = 1e-6
+    learning_rate = 1e-8
     for i in range(500):
         # Forward
         y_pre = x.mm(w1).clamp(min=0).mm(w2)
